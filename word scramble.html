@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="design.css">
+    <script src="scriptt.js"></script>
+    <script src="words.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Word Scramble</h2>
+        <div class="content">
+            <p class="word"></p>
+            <div class="details">
+                <p class="hint">
+                    Hint:<span class="cont"></span>
+                </p>
+                <p class="Time">
+                    Time Left:<span><b>30</b>s</span>
+                </p>
+            </div>
+            <input type="text" placeholder="Enter the valid word"> 
+            <div class="buttons">
+                <button class="refresh-word">Refresh Word</button>
+                <button class="check-word">Check Word</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const words=[
+    {
+        word:"pocket",
+        hint:"A bag for carrying small item"
+    },
+    {  word:"needle",
+       hint:"A thin and sharp metal pin"
+    },
+    {
+        word:"expert",
+        hint:"person with extensive knowledge"
+    },
+    {
+        word:"statement",
+        hint:"A declaration of something"
+    },
+    {
+        word:"second",
+        hint:"one-sixtieth of a minute"
+    },
+    {
+        word:"library",
+        hint:"collection of books"
+    },
+    {
+        word:"knife",
+        hint:"use to cut item"
+    },
+    {
+        word:"addition",
+        hint:"adding to number"
+    },
+    {
+        word:"number",
+        hint:"digit"
+    },
+    {
+        word:"sky",
+        hint:"look upward"
+    },
+    {
+        word:"garden",
+        hint:"many trees"
+    },
+    {
+        word:"rose",
+        hint:"splendid smell"
+    },
+    {
+        word:"laptop",
+        hint:"window system"
+    },
+    {
+        word:"drink",
+        hint:"taking inside mouth"
+    },
+    {
+        word:"water",
+        hint:"feeling thirsty"
+    },
+];
+const wordText=document.querySelector(".word");
+const hintText=document.querySelector(".hint span");
+const timeText=document.querySelector(".Time b");
+const inputfield=document.querySelector("input");
+const refreshbtn=document.querySelector(".refresh-word");
+const checkbtn=document.querySelector(".check-word");
+let correctword,timer;
+const initiTimer=maxTime=>{
+    clearInterval(timer);
+    timer=setInterval(()=>{
+     if(maxTime>0){
+        maxTime--;
+       return  timeText.innerText=maxTime;
+     }
+     clearInterval(timer);
+     alert('Time off! '+userword.toUpperCase()+" was the correct word");
+     initGame();
+    },1000);
+}
+const initGame=()=>{
+    initiTimer(30);
+    //let randomobj=words
+    let randomobj=words[Math.floor(Math.random()*words.length)];
+    const wordArray=randomobj.word.split("");
+    const str=randomobj.hint;
+    for(let i=wordArray.length-1;i>0;i--){
+        let j=Math.floor(Math.random()*(i+1));
+        [wordArray[i],wordArray[j]]=[wordArray[j],wordArray[i]];
+    }
+    wordText.innerHTML=wordArray.join("");
+    hintText.innerText=randomobj.hint;
+    correctword=randomobj.word.toLowerCase();
+    inputfield.value="";
+    inputfield.setAttribute("maxlength",correctword.length);
+    //document.getElementById(".cont").innerText=randomobj.hint;
+    console.log(randomobj);
+
+}
+
+initGame();
+const  checkword=()=>{
+    let userword=inputfield.value.toLocaleLowerCase();
+    if(!userword) return alert("please enter the word");
+    //console.log(userword);
+    if(userword==correctword){
+        return alert('word '+ userword+' is correct!!');
+    }
+    else{
+        return alert('word '+ userword+" is incorrect!!");
+    }
+}
+refreshbtn.addEventListener("click",initGame);
+checkbtn.addEventListener("click",checkword);
+</script>
+</html>
